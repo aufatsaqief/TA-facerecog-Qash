@@ -43,7 +43,7 @@ LOGGING_MODE = 'MYSQL' # Ganti ke 'MYSQL' jika database siap
 # Thresholds
 RECOGNITION_THRESHOLD_ABSENSI = 0.40 # 60% kemiripan untuk Absensi 1:1
 RECOGNITION_THRESHOLD_REGISTER = 0.30 # 70% kemiripan untuk Cek Duplikasi Wajah
-DETECTION_QUALITY_THRESHOLD_REGISTER = 0.85 # Kualitas gambar min 85% saat daftar
+DETECTION_QUALITY_THRESHOLD_REGISTER = 0.70 # Kualitas gambar min 70% saat daftar
 VALIDATE_POSE_ENABLED = False # Aktifkan/nonaktifkan validasi pose
 POSE_THRESHOLD_SIDE = 30
 POSE_THRESHOLD_UP_DOWN = 30

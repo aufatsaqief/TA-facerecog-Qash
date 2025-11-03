@@ -1,0 +1,11 @@
+Flask>=2.0.0
+Flask-Cors>=3.0.0
+opencv-python>=4.5.0
+numpy>=1.20.0
+insightface>=0.7.0
+
+Pustaka ONNX Runtime akan diinstal secara otomatis sebagai dependensi insightface
+
+requests>=2.25.0 # Untuk script pengujian atau integrasi API lain
+geopy>=2.0.0 # Hanya jika menggunakan script get_coords.py
+mysql-connector-python>=8.0.0 # Hanya jika menggunakan logging MySQL
