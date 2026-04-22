@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Aufa Tsaqief – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #112240;
+    --accent: #00c2a0;
+    --accent2: #4f8ef7;
+    --text-main: #e8eaf0;
+    --text-muted: #8892b0;
+    --text-dim: #495670;
+    --card-bg: #112240;
+    --card-border: rgba(0,194,160,0.18);
+    --section-gap: 6rem;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--text-main);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,22,40,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,194,160,0.1);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: 0.03em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* MAIN */
+  main { padding-top: 64px; max-width: 1100px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
+
+  /* HERO */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4rem 0;
+  }
+  .hero-tag {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.12;
+    color: #ccd6f6;
+    margin-bottom: 1rem;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 1.5rem;
+    font-size: 0.85rem; color: var(--text-dim);
+    margin-bottom: 2.5rem;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+  .hero-meta strong { color: var(--text-muted); }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--navy);
+    border: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.03em;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: #00ddb7; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { background: rgba(0,194,160,0.08); }
+
+  /* SECTIONS */
+  section { padding: var(--section-gap) 0; border-top: 1px solid rgba(255,255,255,0.04); }
+  .section-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #ccd6f6;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 680px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  /* PROBLEM / SOLUTION SPLIT */
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  @media (max-width: 680px) { .split-grid { grid-template-columns: 1fr; } }
+  .split-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.75rem;
+  }
+  .split-card h3 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .split-card p {
+    font-size: 0.96rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* TECH STACK */
+  .tech-grid {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .tech-badge {
+    background: rgba(0,194,160,0.08);
+    border: 1px solid rgba(0,194,160,0.25);
+    color: var(--accent);
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.4rem 0.85rem;
+    letter-spacing: 0.04em;
+  }
+  .tech-badge.blue {
+    background: rgba(79,142,247,0.08);
+    border-color: rgba(79,142,247,0.25);
+    color: var(--accent2);
+  }
+  .tech-badge.gray {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+    color: var(--text-muted);
+  }
+
+  /* ARCHITECTURE */
+  .arch-diagram {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+  }
+  .arch-row {
+    display: flex; align-items: center; gap: 1rem;
+    justify-content: center; flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .arch-box {
+    background: rgba(0,194,160,0.07);
+    border: 1px solid rgba(0,194,160,0.3);
+    border-radius: 8px;
+    padding: 0.6rem 1.1rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-align: center;
+    min-width: 130px;
+  }
+  .arch-box.blue {
+    background: rgba(79,142,247,0.07);
+    border-color: rgba(79,142,247,0.3);
+    color: var(--accent2);
+  }
+  .arch-box.gray {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.1);
+    color: var(--text-muted);
+  }
+  .arch-arrow {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+  }
+  .arch-label {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* METRICS */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+  }
+  .metric-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .metric-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .metric-desc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+
+  /* WORKFLOW STEPS */
+  .steps { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2rem; }
+  .step {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+  }
+  .step-num {
+    background: rgba(0,194,160,0.12);
+    color: var(--accent);
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .step-content h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ccd6f6;
+    margin-bottom: 0.3rem;
+  }
+  .step-content p { font-size: 0.88rem; color: var(--text-muted); }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .skill-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .skill-card h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #ccd6f6;
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .skill-card h4::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .skill-card ul {
+    list-style: none;
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .skill-card ul li {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border-radius: 3px;
+    padding: 0.25rem 0.6rem;
+  }
+
+  /* CONTACT */
+  .contact-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+  }
+  .contact-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: #ccd6f6;
+    margin-bottom: 0.75rem;
+  }
+  .contact-card p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .contact-links {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  /* DIVIDER */
+  .line { width: 60px; height: 2px; background: var(--accent); margin: 1.5rem 0; }
+
+  /* ROC visual */
+  .roc-visual {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .roc-visual svg { width: 100%; max-width: 400px; display: block; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Aufa Tsaqief</span>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#system">System</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-tag">Capstone Project — Universitas Diponegoro 2026</p>
+    <h1>AI-Powered Face Verification<br><span>Attendance System</span></h1>
+    <p class="hero-subtitle">
+      Designed and built a production-grade 1:1 face verification system using deep learning (ArcFace / Buffalo_L) integrated with a microservice backend — achieving 99% accuracy, 100% precision, and 0% false positive rate.
+    </p>
+    <div class="hero-meta">
+      <span>👤 <strong>Muhammad Aufa Tsaqief</strong></span>
+      <span>🎓 <strong>S1 Teknik Komputer, UNDIP</strong></span>
+      <span>📅 <strong>2026</strong></span>
+      <span>📍 <strong>Semarang</strong></span>
+    </div>
+    <div class="hero-cta">
+      <a href="#overview" class="btn-primary">View Project</a>
+      <a href="https://github.com/aufatsaqief/TA-facerecog-Qash" target="_blank" class="btn-outline">
+    View Source Code
+  </a>
+      <a href="#contact" class="btn-outline">Contact Me</a>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <p class="section-label">Project Overview</p>
+    <h2 class="section-title">Solving Attendance Fraud with<br>Biometric Intelligence</h2>
+    <div class="line"></div>
+    <p class="section-desc">
+      Traditional manual attendance systems are vulnerable to buddy punching, inaccurate recording, and fraud. This project replaces manual attendance with a real-time, AI-driven biometric verification pipeline — making impersonation virtually impossible.
+    </p>
+
+    <div class="split-grid">
+      <div class="split-card">
+        <h3>The Problem</h3>
+        <p>Manual attendance is prone to manipulation (buddy punching), inefficient record-keeping, and lack of audit trails. Existing face recognition systems often use 1:N identification which is slower and less secure for individual-targeted verification scenarios.</p>
+      </div>
+      <div class="split-card">
+        <h3>The Solution</h3>
+        <p>A 1:1 face verification microservice: the system verifies whether a specific employee's submitted photo matches <em>only their own</em> stored embedding — drastically reducing attack surface and improving speed. Combined with multi-pose registration for robustness.</p>
+      </div>
+    </div>
+
+    <div class="tech-grid">
+      <span class="tech-badge">Python</span>
+      <span class="tech-badge">Flask</span>
+      <span class="tech-badge">InsightFace (ArcFace)</span>
+      <span class="tech-badge">Buffalo_L Model</span>
+      <span class="tech-badge">Cosine Distance</span>
+      <span class="tech-badge blue">Laravel (PHP)</span>
+      <span class="tech-badge blue">MySQL</span>
+      <span class="tech-badge blue">REST API</span>
+      <span class="tech-badge gray">NumPy</span>
+      <span class="tech-badge gray">Pickle Serialization</span>
+      <span class="tech-badge gray">Microservice Architecture</span>
+      <span class="tech-badge gray">ResNet50 Backbone</span>
+    </div>
+  </section>
+
+  <!-- SYSTEM -->
+  <section id="system">
+    <p class="section-label">System Architecture</p>
+    <h2 class="section-title">Microservice Design &amp; Technical Implementation</h2>
+    <div class="line"></div>
+    <p class="section-desc">
+      The system is split into two independently deployed services: a Python AI microservice handling all biometric computation, and a Laravel web application managing user sessions, business logic, and database persistence.
+    </p>
+
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div>
+          <div class="arch-box blue">Employee Browser</div>
+          <div class="arch-label">Capture photo</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div>
+          <div class="arch-box blue">Laravel Controller</div>
+          <div class="arch-label">Session + DB Logic</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div>
+          <div class="arch-box">Flask AI API</div>
+          <div class="arch-label">:5000 /recognize</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div>
+          <div class="arch-box">Buffalo_L / ArcFace</div>
+          <div class="arch-label">512-dim embedding</div>
+        </div>
+      </div>
+      <div class="arch-row">
+        <div style="text-align:center; color: var(--text-dim); font-size: 0.82rem;">
+          ↕ Result: <span style="color:var(--accent)">{"status": "ok"}</span> or <span style="color:#f07;">{"status": "error"}</span> → Laravel writes to MySQL
+        </div>
+      </div>
+      <div class="arch-row">
+        <div>
+          <div class="arch-box gray">knn_model.pkl</div>
+          <div class="arch-label">(N×512) embeddings</div>
+        </div>
+        <div class="arch-arrow">+</div>
+        <div>
+          <div class="arch-box gray">names.pkl</div>
+          <div class="arch-label">Index-matched labels</div>
+        </div>
+        <div class="arch-arrow">→ loaded into memory at startup</div>
+      </div>
+    </div>
+
+    <h3 style="color:#ccd6f6; font-size:1rem; font-weight:600; margin-bottom:1.25rem;">Verification Workflow</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Face Registration (Multi-Pose)</h4>
+          <p>Employees register 5 photos: front, left, right, up, down. The endpoint /register validates image quality, checks for duplicate face injection, then stores images to <code>storage/Dataset/</code>. On the 5th image, <code>retrain_model()</code> is triggered synchronously.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Embedding Extraction &amp; Model Training</h4>
+          <p>The system scans the entire dataset folder, extracts a 512-dimensional face embedding per image using InsightFace (ArcFace with ResNet50 backbone), and persists the full embedding matrix and name index as pickle files.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>1:1 Verification at Attendance</h4>
+          <p>When clocking in, Laravel sends the employee's <code>username</code> + live photo to /recognize. The AI filters the embedding database to only that user's rows, computes cosine distance, and accepts if distance &lt; 0.40 (threshold).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Attendance Logging</h4>
+          <p>If verification succeeds, Laravel writes the attendance record (employee ID, timestamp, status) to MySQL. The AI service remains stateless and only returns a JSON verdict — clean separation of concerns.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:#ccd6f6; font-size:1rem; font-weight:600; margin:2rem 0 1rem;">Why 1:1 Verification over 1:N Identification?</h3>
+    <div class="split-grid">
+      <div class="split-card">
+        <h3>Traditional 1:N Identification</h3>
+        <p>Compares face against all employees in the database. As headcount grows, compute time scales linearly. Any face in the database can match — security depends entirely on threshold tuning.</p>
+      </div>
+      <div class="split-card">
+        <h3>This System: 1:1 Verification</h3>
+        <p>Only compares the incoming face against the claimed user's embeddings (5 vectors). Constant-time regardless of company size. Eliminates cross-person false matches by design — security is architecturally enforced.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <p class="section-label">Performance Results</p>
+    <h2 class="section-title">Validated Against 100 Test Samples<br>Across 10 Individuals</h2>
+    <div class="line"></div>
+    <p class="section-desc">
+      The system was evaluated with a balanced 100-sample test set — 50 genuine attempts and 50 impostor attempts — across varied lighting conditions, face angles, and distances from camera.
+    </p>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-value">100%</div>
+        <div class="metric-label">Precision</div>
+        <div class="metric-desc">Zero false positives. No impostor was ever accepted.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">99%</div>
+        <div class="metric-label">Accuracy</div>
+        <div class="metric-desc">99/100 samples correctly classified.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">98%</div>
+        <div class="metric-label">Recall</div>
+        <div class="metric-desc">1 genuine user missed (extreme accessory + low light).</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">98.99%</div>
+        <div class="metric-label">F1-Score</div>
+        <div class="metric-desc">Balanced precision-recall performance.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">0%</div>
+        <div class="metric-label">False Positive Rate</div>
+        <div class="metric-desc">No unauthorized access was granted in any test.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">1.0</div>
+        <div class="metric-label">AUC (ROC Curve)</div>
+        <div class="metric-desc">Perfect discriminability between genuine and impostor classes.</div>
+      </div>
+    </div>
+
+    <h3 style="color:#ccd6f6; font-size:1rem; font-weight:600; margin-bottom:1rem;">Why These Numbers Matter</h3>
+    <p style="color:var(--text-muted); font-size:0.95rem; max-width:720px; line-height:1.8; margin-bottom:1.5rem;">
+      A 100% precision rate means no false logins were permitted — every attendance record is guaranteed to belong to the actual employee. The AUC of 1.0 confirms the cosine-distance embedding space created by ArcFace perfectly separates genuine from impostor samples with threshold 0.40, providing administrators full flexibility to tune security sensitivity for their environment.
+    </p>
+
+    <div class="roc-visual">
+      <p style="font-size:0.78rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1rem; text-align:center;">ROC Curve — AUC = 1.00</p>
+      <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+        <!-- grid -->
+        <line x1="50" y1="20" x2="50" y2="200" stroke="#1e3a5f" stroke-width="1"/>
+        <line x1="50" y1="200" x2="310" y2="200" stroke="#1e3a5f" stroke-width="1"/>
+        <line x1="50" y1="110" x2="310" y2="110" stroke="#1e3a5f" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <line x1="180" y1="20" x2="180" y2="200" stroke="#1e3a5f" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <!-- chance line -->
+        <line x1="50" y1="200" x2="310" y2="20" stroke="#2a4a6b" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="285" y="30" fill="#2a4a6b" font-size="10" font-family="DM Sans,sans-serif">chance</text>
+        <!-- ROC curve (perfect: up then right) -->
+        <polyline points="50,200 50,20 310,20" fill="none" stroke="#00c2a0" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- shaded area -->
+        <polygon points="50,200 50,20 310,20 310,200" fill="rgba(0,194,160,0.08)"/>
+        <!-- labels -->
+        <text x="40" y="203" fill="#8892b0" font-size="10" font-family="DM Sans,sans-serif" text-anchor="middle">0</text>
+        <text x="310" y="203" fill="#8892b0" font-size="10" font-family="DM Sans,sans-serif" text-anchor="middle">1</text>
+        <text x="40" y="24" fill="#8892b0" font-size="10" font-family="DM Sans,sans-serif" text-anchor="middle">1</text>
+        <text x="175" y="218" fill="#8892b0" font-size="10" font-family="DM Sans,sans-serif" text-anchor="middle">False Positive Rate (FPR)</text>
+        <text x="14" y="110" fill="#8892b0" font-size="10" font-family="DM Sans,sans-serif" text-anchor="middle" transform="rotate(-90,14,110)">True Positive Rate (TPR)</text>
+        <!-- AUC label -->
+        <text x="200" y="140" fill="#00c2a0" font-size="13" font-family="DM Serif Display,serif">AUC = 1.00</text>
+        <!-- dot at perfect point -->
+        <circle cx="50" cy="20" r="5" fill="#00c2a0"/>
+        <circle cx="310" cy="20" r="5" fill="#00c2a0"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">Skills Demonstrated</p>
+    <h2 class="section-title">Technical Competencies<br>Showcased in This Project</h2>
+    <div class="line"></div>
+    <p class="section-desc">
+      This capstone project demonstrates end-to-end ownership — from AI model selection and evaluation to full-stack integration and system deployment — skills directly applicable in ML engineering, backend, and software development roles.
+    </p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h4>Machine Learning &amp; AI</h4>
+        <ul>
+          <li>Deep Learning (ArcFace)</li>
+          <li>Face Embedding Extraction</li>
+          <li>Model Evaluation &amp; Selection</li>
+          <li>Cosine Similarity</li>
+          <li>ROC / AUC Analysis</li>
+          <li>InsightFace Library</li>
+          <li>ResNet50 Architecture</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h4>Backend Engineering</h4>
+        <ul>
+          <li>Python (Flask)</li>
+          <li>REST API Design</li>
+          <li>Microservice Architecture</li>
+          <li>NumPy / Pickle</li>
+          <li>In-memory Model Serving</li>
+          <li>Multi-pose Dataset Pipeline</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h4>Full-Stack Development</h4>
+        <ul>
+          <li>Laravel (PHP)</li>
+          <li>MySQL Database</li>
+          <li>Blade Templating</li>
+          <li>Session Management</li>
+          <li>Guzzle HTTP Client</li>
+          <li>JavaScript (camera capture)</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h4>Software Engineering</h4>
+        <ul>
+          <li>System Architecture Design</li>
+          <li>API Integration</li>
+          <li>Threshold Optimization</li>
+          <li>Data Validation &amp; Quality Gates</li>
+          <li>Biometric Security Principles</li>
+          <li>Technical Documentation</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h4>Research &amp; Analysis</h4>
+        <ul>
+          <li>Literature Review</li>
+          <li>Comparative Model Benchmarking</li>
+          <li>Statistical Test Design</li>
+          <li>Precision / Recall / F1 Analysis</li>
+          <li>Academic Writing</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h4>Professional Experience</h4>
+        <ul>
+          <li>IT Support Intern — PT Telkomsel</li>
+          <li>Ketua Bidang Kesejahteraan Mahasiswa (HMTK)</li>
+          <li>Leadership &amp; Organization</li>
+          <li>Team Collaboration</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-card">
+      <h2>Let's Work Together</h2>
+      <p>I'm actively looking for opportunities in software engineering, AI/ML development, or backend engineering. Feel free to reach out via email or phone.</p>
+      <div class="contact-links">
+        <a href="mailto:aufa310802@gmail.com" class="contact-link">
+          ✉ aufa310802@gmail.com
+        </a>
+        <a href="tel:+6281267643803" class="contact-link">
+          ☎ +62 812-6764-3803
+        </a>
+        <a href="#" class="contact-link">
+          📍 Semarang, Jawa Tengah
+        </a>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-dim); margin-top:1.75rem; margin-bottom:0;">
+        S1 Teknik Komputer — Universitas Diponegoro · NIM: 21120121140137<br>
+        Konsentrasi: Perangkat Lunak, Mobile Computing, Manajemen Proyek
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Portofolio Muhammad Aufa Tsaqief · Capstone Project 2026 · Universitas Diponegoro</p>
+</footer>
+
+</body>
+</html>
