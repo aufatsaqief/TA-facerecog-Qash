@@ -1,231 +1,158 @@
-Proyek Absensi Wajah dengan Geolokasi (Backend Python)
+# Face Recognition Attendance System with Geolocation (Backend API)
 
-Selamat datang di dokumentasi backend untuk sistem absensi wajah. Proyek ini dibangun menggunakan Python, Flask, dan InsightFace untuk menyediakan API yang andal untuk pendaftaran dan verifikasi wajah, lengkap dengan validasi geolokasi.
+A backend API for automatic attendance using face recognition and location validation. Built with **Python, Flask, and InsightFace** (Buffalo_L, ArcFace-based). Developed as my capstone project at Universitas Diponegoro, replacing manual attendance with an accurate, measurable solution.
 
-Dokumen ini ditujukan untuk developer (khususnya rekan yang akan mengintegrasikannya dengan Laravel) untuk memahami arsitektur, cara instalasi, dan cara menghubungkan frontend ke backend API ini.
+> **Demo / Portfolio:** https://aufatsaqief.github.io/TA-facerecog-Qash/
 
-Arsitektur Proyek
+<!-- Add a screenshot or GIF of the registration/attendance flow here:
+![Demo](docs/demo.gif) -->
 
-Sistem ini terbagi menjadi dua bagian utama:
+## Key Features
 
-Backend (Python & Flask): Bertugas sebagai "otak" dari sistem.
+- **Guided face registration:** captures 5 photos from different angles (front, left, right, up, down).
+- **Quality and pose validation:** each registered photo must pass an image-quality threshold (85%) and the correct pose check (can be enabled/disabled).
+- **Anti-duplication:** prevents registering a name or face that already exists in the dataset.
+- **High-accuracy attendance:** requires a 98% face similarity for attendance to be accepted.
+- **Geolocation validation:** attendance is accepted only within a configured radius of the target location.
+- **Automatic retraining:** embeddings are recomputed after every successful registration, with no server restart.
+- **Modular logging:** attendance is saved to CSV or MySQL by changing a single configuration line.
 
-face_api.py: Server API utama yang menerima permintaan HTTP dari Laravel.
+## Results
 
-face_register_service.py: Menangani semua logika kompleks untuk pendaftaran wajah, termasuk validasi pose, kualitas gambar, dan cek duplikasi.
+<!-- Fill in with your own evaluation results (from evaluate_accuracy.py). Do not add numbers you have not measured. -->
 
-face_recognize_service.py: Menangani logika absensi, membandingkan wajah dengan dataset, dan memvalidasi lokasi.
+| Metric | Value |
+|---|---|
+| ROC AUC | _add_ |
+| Chosen similarity threshold | 98% |
+| Number of test subjects / images | _add_ |
 
-main.py: Script yang dijalankan secara otomatis untuk melatih ulang (menghitung ulang embeddings) model setelah ada pendaftaran baru.
+![ROC curve](docs/roc_curve.png)
 
-geolocation_service.py: Mengatur lokasi target absensi dan menghitung jarak.
+## Architecture
 
-attendance_logger.py: Menyimpan data absensi yang berhasil (saat ini ke CSV, dengan opsi untuk beralih ke MySQL).
+```
+Frontend (browser: photo + geolocation)
+   -> POST request -> Flask API (face_api.py)
+   -> face_recognize_service.py (face match + location check)
+   -> attendance_logger.py (CSV / MySQL)
+   -> JSON response -> Frontend shows the result
+```
 
-Frontend (Laravel & JavaScript): Bertugas sebagai antarmuka pengguna (UI).
+| File | Responsibility |
+|---|---|
+| `face_api.py` | Main API server that receives HTTP requests |
+| `face_register_service.py` | Face registration: pose validation, image quality, duplicate check |
+| `face_recognize_service.py` | Attendance logic: compares faces against the dataset and validates location |
+| `main.py` | Recomputes embeddings after a new registration |
+| `geolocation_service.py` | Target location settings and distance calculation |
+| `attendance_logger.py` | Stores successful attendance (CSV by default, MySQL optional) |
+| `evaluate_accuracy.py` | Quantitative evaluation of recognition accuracy |
 
-Menampilkan preview kamera.
+The frontend (Laravel + JavaScript) shows the camera preview, sends the image and data to this API, and displays the response.
 
-Mengirim gambar dan data (nama, lokasi) ke backend API Python.
+## Tech Stack
 
-Menampilkan respon (sukses/gagal) dari API.
+Python 3.8+, Flask, InsightFace (Buffalo_L / ArcFace), MySQL (optional), Laravel + JavaScript (frontend integration).
 
-Alur Data Absensi
+## Getting Started
 
-Laravel (Browser) -> Mengambil Foto & Geolokasi -> Kirim POST Request -> Flask (face_api.py) -> Panggil face_recognize_service.py -> Validasi Wajah & Lokasi -> Panggil attendance_logger.py -> Simpan ke CSV/DB -> Kirim Respon JSON -> Laravel (Tampilkan Pesan)
+**Prerequisites:** Python 3.8 or newer, Git.
 
-
-Fitur Utama
-
-Pendaftaran Wajah Terpandu: Sistem memandu pengguna untuk mengambil 5 foto dari sudut berbeda (depan, kiri, kanan, atas, bawah).
-
-Validasi Kualitas & Pose: Setiap foto yang didaftarkan harus memenuhi ambang batas kualitas gambar (85%) dan pose yang benar (dapat diaktifkan/dinonaktifkan).
-
-Anti-Duplikasi: Mencegah pendaftaran nama atau wajah yang sudah ada di dataset.
-
-Absensi Akurasi Tinggi: Membutuhkan tingkat kemiripan wajah 98% untuk absensi diterima.
-
-Validasi Geolokasi: Absensi hanya diterima jika pengguna berada dalam radius yang ditentukan dari lokasi target.
-
-Retrain Otomatis: Model secara otomatis diperbarui setelah setiap pendaftaran berhasil, tanpa perlu me-restart server.
-
-Logging Modular: Data absensi dapat disimpan ke file CSV atau database MySQL dengan mengubah satu baris konfigurasi.
-
-Instalasi & Konfigurasi Backend (Python)
-
-Langkah-langkah ini harus dilakukan di lingkungan pengembangan backend.
-
-Prasyarat
-
-Python (versi 3.8 atau lebih baru direkomendasikan).
-
-Git.
-
-Langkah 1: Clone Repositori
-
-Buka terminal dan clone repositori ini ke mesin lokal Anda.
-
-git clone [https://github.com/aufatsaqief/TA-facerecog-Qash.git](https://github.com/aufatsaqief/TA-facerecog-Qash.git)
+```bash
+# 1. Clone
+git clone https://github.com/aufatsaqief/TA-facerecog-Qash.git
 cd TA-facerecog-Qash
 
-
-Langkah 2: Setup Virtual Environment
-
-Sangat penting untuk menggunakan virtual environment (.venv) agar dependensi proyek tidak tercampur dengan sistem Python Anda.
-
-# Buat virtual environment
+# 2. Create and activate a virtual environment
 python -m venv .venv
+.\.venv\Scripts\Activate.ps1      # Windows (PowerShell)
+# source .venv/bin/activate       # macOS / Linux
 
-# Aktifkan virtual environment
-# Di Windows (PowerShell):
-.\.venv\Scripts\Activate.ps1
-# Di macOS/Linux:
-# source .venv/bin/activate
-
-
-Setelah aktif, Anda akan melihat (.venv) di awal prompt terminal Anda.
-
-Langkah 3: Instal Dependensi
-
-Instal semua pustaka Python yang diperlukan dari file requirements.txt.
-
+# 3. Install dependencies
 pip install -r requirements.txt
 
-
-Langkah 4: Konfigurasi Lokasi Absensi
-
-Lokasi target untuk absensi diatur langsung di dalam kode.
-
-Dapatkan Koordinat: Jalankan script get_coords.py untuk mendapatkan perkiraan latitude dan longitude lokasi Anda saat ini.
-
-python get_coords.py
-
-
-Update geolocation_service.py: Buka file geolocation_service.py dan ganti nilai TARGET_LATITUDE, TARGET_LONGITUDE, dan ACCEPTABLE_RADIUS_METERS dengan koordinat dan radius toleransi yang Anda inginkan.
-
-Langkah 5: Konfigurasi Database (Opsional)
-
-Secara default, sistem menyimpan log absensi ke absensi.csv. Jika Anda ingin beralih ke MySQL:
-
-Pastikan Anda sudah membuat database qash_demo.
-
-Buka file attendance_logger.py.
-
-Ubah LOGGING_MODE = 'CSV' menjadi LOGGING_MODE = 'MYSQL'.
-
-Isi placeholder insertuserhere dan insertpasswordhere di dalam DB_CONFIG dengan username dan password MySQL Anda.
-
-Langkah 6: Jalankan Server API
-
-Setelah semua konfigurasi selesai, jalankan server Flask.
-
+# 4. Run the API server (http://127.0.0.1:5000)
 python face_api.py
+```
 
+### Configure the attendance location
 
-Server akan berjalan di http://127.0.0.1:5000. Biarkan terminal ini tetap berjalan selama aplikasi digunakan.
+1. Run `python get_coords.py` to get the approximate latitude/longitude of your location.
+2. In `geolocation_service.py`, set `TARGET_LATITUDE`, `TARGET_LONGITUDE`, and `ACCEPTABLE_RADIUS_METERS`.
 
-Integrasi dengan Laravel (Frontend)
+### Optional: use MySQL instead of CSV
 
-Berikut adalah panduan untuk menghubungkan aplikasi Laravel ke API Python.
+By default, attendance is saved to `absensi.csv`. To use MySQL:
 
-URL API
+1. Create a database named `qash_demo`.
+2. In `attendance_logger.py`, change `LOGGING_MODE = 'CSV'` to `LOGGING_MODE = 'MYSQL'`.
+3. Fill in your MySQL username and password in `DB_CONFIG` (never commit real credentials).
 
-Semua permintaan dikirim ke base URL: http://127.0.0.1:5000.
+## API Reference
 
-Endpoint API
+Base URL: `http://127.0.0.1:5000`
 
-1. Pendaftaran Wajah (/register)
+### `POST /register` (multipart/form-data)
 
-Method: POST
+| Field | Type | Description |
+|---|---|---|
+| `name` | string | Full name of the employee |
+| `image` | file | Face image from the camera |
+| `frame_index` | integer | Frame order (0 to 4) |
+| `total_frames` | integer | Total frames (always 5) |
+| `required_pose` | integer | Requested pose index (0 = straight, 1 = left, ...) |
 
-Tipe Data: multipart/form-data
+### `POST /recognize` (multipart/form-data)
 
-Body:
+| Field | Type | Description |
+|---|---|---|
+| `image` | file | Face image from the camera |
+| `latitude` | string | User's current latitude |
+| `longitude` | string | User's current longitude |
 
-name (string): Nama lengkap karyawan.
+### Response
 
-image (file): File gambar wajah dari kamera.
+Always JSON with `status` and `message`.
 
-frame_index (integer): Urutan frame (0 sampai 4).
+<!-- Verify the exact status values against face_api.py before publishing. -->
 
-total_frames (integer): Total frame (selalu 5).
+- `success` / `finished`: operation succeeded.
+- `skip`: registration failed (e.g., low image quality); ask the user to retry.
+- `error`: fatal error or failed validation (e.g., duplicate face).
 
-required_pose (integer): Indeks pose yang diminta (0=lurus, 1=kiri, dst.).
+<details>
+<summary>Example: calling /recognize from JavaScript</summary>
 
-2. Absensi Wajah (/recognize)
-
-Method: POST
-
-Tipe Data: multipart/form-data
-
-Body:
-
-image (file): File gambar wajah dari kamera.
-
-latitude (string): Latitude lokasi pengguna saat ini.
-
-longitude (string): Longitude lokasi pengguna saat ini.
-
-Contoh Kode JavaScript (Fetch API untuk Absensi)
-
-Ini adalah contoh bagaimana JavaScript di sisi Laravel harus mengirim data ke endpoint /recognize.
-
-// URL API yang dituju
-const API_URL_RECOGNIZE = '[http://127.0.0.1:5000/recognize](http://127.0.0.1:5000/recognize)';
+```javascript
+const API_URL_RECOGNIZE = 'http://127.0.0.1:5000/recognize';
 
 async function sendToRecognize() {
-    statusMessage.innerText = 'Mendeteksi wajah & lokasi...';
-    
-    // 1. Ambil gambar dari <video>
-    const imageBlob = await captureImage(); // Fungsi untuk mengambil blob dari canvas
-    const formData = new FormData();
-    formData.append('image', imageBlob, 'photo.jpg');
+  const imageBlob = await captureImage(); // get a blob from the canvas
+  const formData = new FormData();
+  formData.append('image', imageBlob, 'photo.jpg');
 
-    // 2. Ambil geolokasi dari browser
-    try {
-        const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 });
-        });
-        formData.append('latitude', position.coords.latitude);
-        formData.append('longitude', position.coords.longitude);
-    } catch (geoError) {
-        statusMessage.innerText = '❌ Gagal mendapatkan lokasi. Pastikan izin lokasi diberikan.';
-        return;
-    }
+  const position = await new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 });
+  });
+  formData.append('latitude', position.coords.latitude);
+  formData.append('longitude', position.coords.longitude);
 
-    // 3. Kirim data ke API Flask
-    try {
-        const response = await fetch(API_URL_RECOGNIZE, { method: 'POST', body: formData });
-        const result = await response.json();
-
-        // 4. Tampilkan pesan dari server
-        if (result.status === 'ok') {
-            statusMessage.innerText = `✅ ${result.message}`;
-            statusMessage.className = 'text-success';
-        } else {
-            statusMessage.innerText = `❌ ${result.message}`;
-            statusMessage.className = 'text-danger';
-        }
-    } catch (error) {
-        statusMessage.innerText = 'Terjadi kesalahan saat terhubung ke server Flask.';
-    }
+  const response = await fetch(API_URL_RECOGNIZE, { method: 'POST', body: formData });
+  const result = await response.json();
+  console.log(result.status, result.message);
 }
+```
 
+</details>
 
-Penanganan Respon JSON
+## Troubleshooting
 
-API akan selalu mengembalikan objek JSON dengan properti status dan message.
+- **Connection refused:** make sure `face_api.py` is running in a separate terminal.
+- **ModuleNotFoundError:** activate the virtual environment (`.venv`) before installing or running.
+- **Geolocation error:** the user must grant location permission in the browser.
 
-status: 'success' atau 'finished': Operasi berhasil.
+## Author
 
-status: 'skip': Pendaftaran gagal (misalnya, kualitas gambar rendah), minta pengguna mencoba lagi.
-
-status: 'error': Terjadi kesalahan fatal atau validasi gagal (misalnya, wajah duplikat).
-
-Troubleshooting
-
-"Connection Refused": Pastikan server face_api.py sedang berjalan di terminal terpisah.
-
-"ModuleNotFoundError": Pastikan Anda sudah mengaktifkan virtual environment (.venv) sebelum menjalankan pip install atau python face_api.py.
-
-Error Geolokasi: Pastikan pengguna memberikan izin lokasi di browser.
+Muhammad Aufa Tsaqief — Computer Engineering, Universitas Diponegoro
+[LinkedIn](https://linkedin.com/in/muhammad-aufa-tsaqief-61b50b401/) · [GitHub](https://github.com/aufatsaqief)
