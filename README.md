@@ -2,7 +2,7 @@
 
 A backend API for automatic attendance using face recognition and location validation. Built with **Python, Flask, and InsightFace** (Buffalo_L, ArcFace-based). Developed as my capstone project at Universitas Diponegoro, replacing manual attendance with an accurate, measurable solution.
 
-> **Demo / Portfolio:** https://aufatsaqief.github.io/TA-facerecog-Qash/
+> Portfolio:** https://aufatsaqief.github.io/TA-facerecog-Qash/
 
 <!-- Add a screenshot or GIF of the registration/attendance flow here:
 ![Demo](docs/demo.gif) -->
@@ -27,7 +27,6 @@ A backend API for automatic attendance using face recognition and location valid
 | Chosen similarity threshold | 98% |
 | Number of test subjects / images | 100 |
 
-![ROC curve](docs/roc_curve.png)
 
 ## Architecture
 
